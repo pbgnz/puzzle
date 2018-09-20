@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pbgnz/11d-puzzle/puzzle"
+	"github.com/pbgnz/puzzle/puzzle"
 )
 
 func main() {
@@ -22,15 +22,18 @@ func main() {
 		ints[i], _ = strconv.Atoi(v)
 	}
 	p := puzzle.NewPuzzle(ints)
-	r := puzzle.BreadthFirstSearch(p)
-	generateOutputFiles(r)
+	dfs := puzzle.DepthFirstSearch(p)
+	generateOutputFiles(dfs, "output/puzzleDFS.txt")
+
+	bfs := puzzle.BreadthFirstSearch(p)
+	generateOutputFiles(bfs, "output/puzzleBFS.txt")
 
 }
 
-func generateOutputFiles(p []*puzzle.Node) {
+func generateOutputFiles(p []*puzzle.Node, l string) {
 	s := ""
 	for i := len(p) - 1; i >= 0; i-- {
 		s += p[i].Move + " [" + strings.Trim(strings.Replace(fmt.Sprint(p[i].Puzzle), " ", " , ", -1), "[]") + "]\n"
-		ioutil.WriteFile("output/output.txt", []byte(s), 0666)
+		ioutil.WriteFile(l, []byte(s), 0666)
 	}
 }

@@ -66,17 +66,24 @@ func (n *Node) GenerateMoves() {
 
 // GoalTest ehnd
 func (n *Node) isGoalState() bool {
-
-	isGoal := true
-	m := n.Puzzle[0]
-
-	for i := 1; i < len(n.Puzzle); i++ {
-		if m > n.Puzzle[i] {
-			isGoal = false
+	for i := 0; i < len(n.Puzzle)-1; i++ {
+		if n.Puzzle[i] != i+1 {
+			return false
 		}
-		m = n.Puzzle[i]
 	}
-	return isGoal
+	return n.Puzzle[len(n.Puzzle)-1] == 0
+}
+
+// PathTrace he
+func (n *Node) PathTrace() []*Node {
+	new := make([]*Node, 0)
+	current := n
+	new = append(new, current)
+	for current.Parent != nil {
+		current = current.Parent
+		new = append(new, current)
+	}
+	return new
 }
 
 // ClonePuzzle d
@@ -88,8 +95,18 @@ func (n *Node) ClonePuzzle() []int {
 	return p
 }
 
+// AreTheSame compare two slices
+func AreTheSame(a []int, b []int) bool {
+	for i := 0; i < len(a); i++ {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // MoveUp moves the empty tile up by 1 tile
-// @param {[]string} p - the puzzle (1 dimensional array)
+// @param {[]int} p - the puzzle (1 dimensional array)
 // @param {int} i - the position of the empty tile
 func (n *Node) MoveUp(p []int, i int) {
 	if i-NumberColumns >= 0 {
@@ -100,13 +117,13 @@ func (n *Node) MoveUp(p []int, i int) {
 
 		child := NewPuzzle(c)
 		child.Move = positionDict[i-NumberColumns]
-		n.Children = append(n.Children, child)
 		child.Parent = n
+		n.Children = append(n.Children, child)
 	}
 }
 
 // MoveUpRight moves the empty tile diagonally up-right by 1 tile
-// @param {[]string} p - the puzzle (1 dimensional array)
+// @param {[]int} p - the puzzle (1 dimensional array)
 // @param {int} i - the position of the empty tile
 func (n *Node) MoveUpRight(p []int, i int) {
 	if i%NumberColumns != 3 && i > 3 {
@@ -117,13 +134,13 @@ func (n *Node) MoveUpRight(p []int, i int) {
 
 		child := NewPuzzle(c)
 		child.Move = positionDict[i-NumberRows]
-		n.Children = append(n.Children, child)
 		child.Parent = n
+		n.Children = append(n.Children, child)
 	}
 }
 
 // MoveRight moves the empty tile to the right by 1 tile
-// @param {[]string} p - the puzzle (1 dimensional array)
+// @param {[]int} p - the puzzle (1 dimensional array)
 // @param {int} i - the position of the empty tile
 func (n *Node) MoveRight(p []int, i int) {
 	if i%NumberColumns != 3 {
@@ -134,13 +151,13 @@ func (n *Node) MoveRight(p []int, i int) {
 
 		child := NewPuzzle(c)
 		child.Move = positionDict[i+1]
-		n.Children = append(n.Children, child)
 		child.Parent = n
+		n.Children = append(n.Children, child)
 	}
 }
 
 // MoveDownRight moves the empty tile diagonally down-right by 1 tile
-// @param {[]string} p - the puzzle (1 dimensional array)
+// @param {[]int} p - the puzzle (1 dimensional array)
 // @param {int} i - the position of the empty tile
 func (n *Node) MoveDownRight(p []int, i int) {
 	if i%NumberColumns != 3 && i < 8 {
@@ -151,13 +168,13 @@ func (n *Node) MoveDownRight(p []int, i int) {
 
 		child := NewPuzzle(c)
 		child.Move = positionDict[i+5]
-		n.Children = append(n.Children, child)
 		child.Parent = n
+		n.Children = append(n.Children, child)
 	}
 }
 
 // MoveDown moves the empty tile down by 1 tile
-// @param {[]string} p - the puzzle (1 dimensional array)
+// @param {[]int} p - the puzzle (1 dimensional array)
 // @param {int} i - the position of the empty tile
 func (n *Node) MoveDown(p []int, i int) {
 	if i < 8 {
@@ -168,13 +185,13 @@ func (n *Node) MoveDown(p []int, i int) {
 
 		child := NewPuzzle(c)
 		child.Move = positionDict[i+4]
-		n.Children = append(n.Children, child)
 		child.Parent = n
+		n.Children = append(n.Children, child)
 	}
 }
 
 // MoveDownLeft moves the empty tile diagonally down-left by 1 tile
-// @param {[]string} p - the puzzle (1 dimensional array)
+// @param {[]int} p - the puzzle (1 dimensional array)
 // @param {int} i - the position of the empty tile
 func (n *Node) MoveDownLeft(p []int, i int) {
 	if i%NumberColumns > 0 && i < 8 {
@@ -185,13 +202,13 @@ func (n *Node) MoveDownLeft(p []int, i int) {
 
 		child := NewPuzzle(c)
 		child.Move = positionDict[i+3]
-		n.Children = append(n.Children, child)
 		child.Parent = n
+		n.Children = append(n.Children, child)
 	}
 }
 
 // MoveLeft moves the empty tile left by 1 tile
-// @param {[]string} p - the puzzle (1 dimensional array)
+// @param {[]int} p - the puzzle (1 dimensional array)
 // @param {int} i - the position of the empty tile
 func (n *Node) MoveLeft(p []int, i int) {
 	if i%NumberColumns > 0 {
@@ -202,13 +219,13 @@ func (n *Node) MoveLeft(p []int, i int) {
 
 		child := NewPuzzle(c)
 		child.Move = positionDict[i-1]
-		n.Children = append(n.Children, child)
 		child.Parent = n
+		n.Children = append(n.Children, child)
 	}
 }
 
 // MoveUpLeft moves the empty tile diagonally up-left by 1 tile
-// @param {[]string} p - the puzzle (1 dimensional array)
+// @param {[]int} p - the puzzle (1 dimensional array)
 // @param {int} i - the position of the empty tile
 func (n *Node) MoveUpLeft(p []int, i int) {
 	if i%NumberColumns > 0 && i-NumberColumns >= 0 {
@@ -219,22 +236,7 @@ func (n *Node) MoveUpLeft(p []int, i int) {
 
 		child := NewPuzzle(c)
 		child.Move = positionDict[i-5]
-		n.Children = append(n.Children, child)
 		child.Parent = n
+		n.Children = append(n.Children, child)
 	}
-}
-
-// Helper functions
-
-// AreTheSame compare two slices
-func AreTheSame(a []int, b []int) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i := 0; i < len(a); i++ {
-		if a[0] != b[0] {
-			return false
-		}
-	}
-	return true
 }

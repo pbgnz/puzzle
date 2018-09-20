@@ -14,24 +14,22 @@ func DepthFirstSearch(r *Node) []*Node {
 	o = append(o, r)
 
 	for len(o) > 0 && !foundPath {
-		current, o := o[0], o[1:]
+		current := o[0]
+		o = o[1:]
 
+		fmt.Println(current.Puzzle)
 		if current.isGoalState() {
 			foundPath = true
-			c = append(c, current)
-			return PathTrace(current)
+			p = current.PathTrace()
 		}
+		c = append([]*Node{current}, c...)
 		current.GenerateMoves()
 
 		for i := 0; i < len(current.Children); i++ {
-
-			x := current.Children[i]
-			if !Contains(o, x) && !Contains(c, x) {
-				o = append([]*Node{x}, o...)
+			if !Contains(o, current.Children[i]) && !Contains(c, current.Children[i]) {
+				o = append(o, current.Children[i])
 			}
 		}
-		c = append(c, current)
-
 	}
 	return p
 }
@@ -46,7 +44,8 @@ func BreadthFirstSearch(r *Node) []*Node {
 	o = append(o, r)
 
 	for len(o) > 0 && !foundPath {
-		current, o := o[0], o[1:]
+		current := o[0]
+		o = o[1:]
 		c = append(c, current)
 
 		current.GenerateMoves()
@@ -58,7 +57,7 @@ func BreadthFirstSearch(r *Node) []*Node {
 			if x.isGoalState() {
 				fmt.Println("Goal found")
 				foundPath = true
-				p = PathTrace(x)
+				p = x.PathTrace()
 			}
 
 			if !Contains(o, x) && !Contains(c, x) {
@@ -70,25 +69,12 @@ func BreadthFirstSearch(r *Node) []*Node {
 	return p
 }
 
-// Contains as
 func Contains(s []*Node, n *Node) bool {
-	for _, e := range s {
-		if e == n {
-			return true
+	contains := false
+	for i := 0; i < len(s); i++ {
+		if AreTheSame(s[i].Puzzle, n.Puzzle) {
+			contains = true
 		}
 	}
-	return false
-}
-
-func PathTrace(e *Node) []*Node {
-	n := make([]*Node, 0)
-	current := e
-	n = append(n, current)
-	fmt.Println(n)
-	for current.Parent != nil {
-		current = current.Parent
-		n = append(n, current)
-		fmt.Println(n)
-	}
-	return n
+	return contains
 }
