@@ -1,72 +1,77 @@
 package puzzle
 
-import (
-	"fmt"
-)
-
-// DepthFirstSearch prints
+// DepthFirstSearch algorithm
 func DepthFirstSearch(r *Node) []*Node {
-	o := make([]*Node, 0) // open-list (stack)
-	c := make([]*Node, 0) // closed-list
-	p := make([]*Node, 0) // solution path
+	openList := make([]*Node, 0) //(stack)
+	closedList := make([]*Node, 0)
+	solutionPath := make([]*Node, 0)
 	foundPath := false
 
-	o = append(o, r)
+	// add the root node to the openList
+	openList = append(openList, r)
 
-	for len(o) > 0 && !foundPath {
-		current := o[0]
-		o = o[1:]
+	for len(openList) > 0 && !foundPath {
 
-		fmt.Println(current.Puzzle)
-		if current.isGoalState() {
+		// remove left-most element from openList
+		// call it x
+		x := openList[0]
+		openList = openList[1:]
+
+		// check if x is goal
+		if x.isGoalState() {
 			foundPath = true
-			p = current.PathTrace()
+			solutionPath = x.PathTrace()
 		}
-		c = append([]*Node{current}, c...)
-		current.GenerateMoves()
 
-		for i := 0; i < len(current.Children); i++ {
-			if !Contains(o, current.Children[i]) && !Contains(c, current.Children[i]) {
-				o = append(o, current.Children[i])
+		// genrate children of x
+		x.GenerateMoves()
+
+		// put x on closedList
+		closedList = append([]*Node{x}, closedList...)
+
+		for i := 0; i < len(x.Children); i++ {
+			if !Contains(openList, x.Children[i]) && !Contains(closedList, x.Children[i]) {
+				// put remaining children of x on left end of open list
+				openList = append([]*Node{x.Children[i]}, openList...)
 			}
 		}
 	}
-	return p
+	return solutionPath
 }
 
-// BreadthFirstSearch prints
+// BreadthFirstSearch algorithm
 func BreadthFirstSearch(r *Node) []*Node {
-	o := make([]*Node, 0) // open-list (queue)
-	c := make([]*Node, 0) // closed-list
-	p := make([]*Node, 0) // solution path
+	openList := make([]*Node, 0) // (queue)
+	closedList := make([]*Node, 0)
+	solutionPath := make([]*Node, 0)
 	foundPath := false
 
-	o = append(o, r)
+	openList = append(openList, r)
 
-	for len(o) > 0 && !foundPath {
-		current := o[0]
-		o = o[1:]
-		c = append(c, current)
+	for len(openList) > 0 && !foundPath {
+		x := openList[0]
+		openList = openList[1:]
+		closedList = append(closedList, x)
 
-		current.GenerateMoves()
+		if x.isGoalState() {
+			foundPath = true
+			solutionPath = x.PathTrace()
+		}
 
-		for i := 0; i < len(current.Children); i++ {
+		x.GenerateMoves()
 
-			x := current.Children[i]
+		for i := 0; i < len(x.Children); i++ {
 
-			if x.isGoalState() {
-				fmt.Println("Goal found")
-				foundPath = true
-				p = x.PathTrace()
-			}
+			child := x.Children[i]
 
-			if !Contains(o, x) && !Contains(c, x) {
-				o = append(o, x)
+			if !Contains(openList, child) && !Contains(closedList, child) {
+				// put remaining children of x on right end of open list
+				openList = append(openList, child)
 			}
 		}
 
 	}
-	return p
+	return solutionPath
 }
 
 func Contains(s []*Node, n *Node) bool {

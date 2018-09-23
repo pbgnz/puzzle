@@ -12,24 +12,47 @@ import (
 
 func main() {
 
-	args := os.Args[1:]
-	if len(args) != 12 {
-		fmt.Println("Wrong inputs")
-	}
+	inputs := handleInput(os.Args[1:])
 
-	ints := make([]int, 12)
-	for i, v := range args {
-		ints[i], _ = strconv.Atoi(v)
-	}
-	p := puzzle.NewPuzzle(ints)
+	p := puzzle.NewPuzzle(inputs)
 	dfs := puzzle.DepthFirstSearch(p)
 	generateOutputFiles(dfs, "output/puzzleDFS.txt")
 
-	bfs := puzzle.BreadthFirstSearch(p)
+	p2 := puzzle.NewPuzzle(inputs)
+	bfs := puzzle.BreadthFirstSearch(p2)
 	generateOutputFiles(bfs, "output/puzzleBFS.txt")
 
 }
 
+// handleInput takes the user input (array of strings),
+// validates it, and returns an array of integers
+func handleInput(i []string) []int {
+	if len(i) != 12 {
+		fmt.Println("Error: you must enter 12 integers [0,11]")
+		os.Exit(1)
+	}
+	ints := make([]int, 12)
+	inputExists := map[int]bool{}
+	for i, v := range i {
+		input, _ := strconv.Atoi(v)
+
+		if input < 0 || input > 11 {
+			fmt.Println("Error: input(s) not in domain [0,11]")
+			os.Exit(1)
+		}
+
+		if inputExists[input] {
+			fmt.Println("Error: there are duplicate inputs")
+			os.Exit(1)
+		}
+
+		inputExists[input] = true
+		ints[i] = input
+	}
+	return ints
+}
+
+// generateOutputFiles prints the goal path in a given file
 func generateOutputFiles(p []*puzzle.Node, l string) {
 	s := ""
 	for i := len(p) - 1; i >= 0; i-- {
