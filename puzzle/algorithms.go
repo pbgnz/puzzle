@@ -55,7 +55,7 @@ func BestFirstSearch(r *Node) []*Node {
 		index := 0
 		for i := 0; i < len(openList)-1; i++ {
 			if openList[i].Heuristic == -1 {
-				openList[i].Heuristic = Heuristic1(openList[i].Puzzle)
+				openList[i].Heuristic = Heuristic2(openList[i].Puzzle)
 			}
 			if x.Heuristic > openList[i].Heuristic {
 				x = openList[i]
@@ -85,14 +85,4 @@ func BestFirstSearch(r *Node) []*Node {
 
 	}
 	return solutionPath
-}
-
-func Contains(s []*Node, n *Node) bool {
-	contains := false
-	for i := 0; i < len(s); i++ {
-		if AreTheSame(s[i].Puzzle, n.Puzzle) {
-			contains = true
-		}
-	}
-	return contains
 }
