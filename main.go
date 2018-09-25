@@ -14,12 +14,12 @@ func main() {
 
 	inputs := handleInput(os.Args[1:])
 
-	p := puzzle.NewPuzzle(inputs)
-	dfs := puzzle.DepthFirstSearch(p)
-	generateOutputFiles(dfs, "output/puzzleDFS.txt")
+	// p := puzzle.NewPuzzle(inputs)
+	// dfs := puzzle.DepthFirstSearch(p)
+	// generateOutputFiles(dfs, "output/puzzleDFS.txt")
 
 	p2 := puzzle.NewPuzzle(inputs)
-	bfs := puzzle.BreadthFirstSearch(p2)
+	bfs := puzzle.BestFirstSearch(p2)
 	generateOutputFiles(bfs, "output/puzzleBFS.txt")
 
 }

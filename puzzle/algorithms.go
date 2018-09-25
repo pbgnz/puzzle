@@ -39,18 +39,30 @@ func DepthFirstSearch(r *Node) []*Node {
 	return solutionPath
 }
 
-// BreadthFirstSearch algorithm
-func BreadthFirstSearch(r *Node) []*Node {
+// BestFirstSearch algorithm
+func BestFirstSearch(r *Node) []*Node {
 	openList := make([]*Node, 0) // (queue)
 	closedList := make([]*Node, 0)
 	solutionPath := make([]*Node, 0)
 	foundPath := false
 
+	// add the root node to the openList
 	openList = append(openList, r)
 
 	for len(openList) > 0 && !foundPath {
+
 		x := openList[0]
-		openList = openList[1:]
+		index := 0
+		for i := 0; i < len(openList)-1; i++ {
+			if openList[i].Heuristic == -1 {
+				openList[i].Heuristic = Heuristic1(openList[i].Puzzle)
+			}
+			if x.Heuristic > openList[i].Heuristic {
+				x = openList[i]
+				index = i
+			}
+		}
+		openList = append(openList[:index], openList[index+1:]...)
 		closedList = append(closedList, x)
 
 		if x.isGoalState() {
@@ -61,12 +73,13 @@ func BreadthFirstSearch(r *Node) []*Node {
 		x.GenerateMoves()
 
 		for i := 0; i < len(x.Children); i++ {
-
 			child := x.Children[i]
 
+			child.Heuristic = Heuristic1(child.Puzzle)
+
 			if !Contains(openList, child) && !Contains(closedList, child) {
-				// put remaining children of x on right end of open list
-				openList = append(openList, child)
+				// put remaining children of x on left end of open list
+				openList = append([]*Node{x.Children[i]}, openList...)
 			}
 		}
 

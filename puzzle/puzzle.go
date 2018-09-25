@@ -7,7 +7,7 @@ const (
 	NumberColumns = 4
 )
 
-var positionDict = map[int]string{
+var boardPositions = map[int]string{
 	0:  "a",
 	1:  "b",
 	2:  "c",
@@ -24,11 +24,12 @@ var positionDict = map[int]string{
 
 // Node represents a tree node
 type Node struct {
-	Value    int
-	Children []*Node
-	Parent   *Node
-	Puzzle   []int
-	Move     string
+	Value     int
+	Children  []*Node
+	Parent    *Node
+	Puzzle    []int
+	Move      string
+	Heuristic int
 }
 
 // NewPuzzle generates the root node
@@ -38,11 +39,12 @@ func NewPuzzle(p []int) *Node {
 		puzzle[i] = p[i]
 	}
 	return &Node{
-		Value:    -1,
-		Children: make([]*Node, 0),
-		Parent:   nil,
-		Puzzle:   puzzle,
-		Move:     "0",
+		Value:     -1,
+		Children:  make([]*Node, 0),
+		Parent:    nil,
+		Puzzle:    puzzle,
+		Move:      "0",
+		Heuristic: -1,
 	}
 }
 
@@ -116,7 +118,7 @@ func (n *Node) MoveUp(p []int, i int) {
 		c[i] = temp
 
 		child := NewPuzzle(c)
-		child.Move = positionDict[i-NumberColumns]
+		child.Move = boardPositions[i-NumberColumns]
 		child.Parent = n
 		n.Children = append(n.Children, child)
 	}
@@ -133,7 +135,7 @@ func (n *Node) MoveUpRight(p []int, i int) {
 		c[i] = temp
 
 		child := NewPuzzle(c)
-		child.Move = positionDict[i-NumberRows]
+		child.Move = boardPositions[i-NumberRows]
 		child.Parent = n
 		n.Children = append(n.Children, child)
 	}
@@ -150,7 +152,7 @@ func (n *Node) MoveRight(p []int, i int) {
 		c[i] = temp
 
 		child := NewPuzzle(c)
-		child.Move = positionDict[i+1]
+		child.Move = boardPositions[i+1]
 		child.Parent = n
 		n.Children = append(n.Children, child)
 	}
@@ -167,7 +169,7 @@ func (n *Node) MoveDownRight(p []int, i int) {
 		c[i] = temp
 
 		child := NewPuzzle(c)
-		child.Move = positionDict[i+5]
+		child.Move = boardPositions[i+5]
 		child.Parent = n
 		n.Children = append(n.Children, child)
 	}
@@ -184,7 +186,7 @@ func (n *Node) MoveDown(p []int, i int) {
 		c[i] = temp
 
 		child := NewPuzzle(c)
-		child.Move = positionDict[i+4]
+		child.Move = boardPositions[i+4]
 		child.Parent = n
 		n.Children = append(n.Children, child)
 	}
@@ -201,7 +203,7 @@ func (n *Node) MoveDownLeft(p []int, i int) {
 		c[i] = temp
 
 		child := NewPuzzle(c)
-		child.Move = positionDict[i+3]
+		child.Move = boardPositions[i+3]
 		child.Parent = n
 		n.Children = append(n.Children, child)
 	}
@@ -218,7 +220,7 @@ func (n *Node) MoveLeft(p []int, i int) {
 		c[i] = temp
 
 		child := NewPuzzle(c)
-		child.Move = positionDict[i-1]
+		child.Move = boardPositions[i-1]
 		child.Parent = n
 		n.Children = append(n.Children, child)
 	}
@@ -235,7 +237,7 @@ func (n *Node) MoveUpLeft(p []int, i int) {
 		c[i] = temp
 
 		child := NewPuzzle(c)
-		child.Move = positionDict[i-5]
+		child.Move = boardPositions[i-5]
 		child.Parent = n
 		n.Children = append(n.Children, child)
 	}
