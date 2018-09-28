@@ -1,5 +1,10 @@
 package puzzle
 
+import (
+	"container/heap"
+	"fmt"
+)
+
 // DepthFirstSearch algorithm
 func DepthFirstSearch(r *Node) []*Node {
 	openList := make([]*Node, 0) //(stack)
@@ -40,29 +45,29 @@ func DepthFirstSearch(r *Node) []*Node {
 }
 
 // BestFirstSearch algorithm
-func BestFirstSearch(r *Node) []*Node {
-	openList := make([]*Node, 0) // (queue)
+func BestFirstSearch(root *Node, heuristic int) []*Node {
+	openList := make(PriorityQueue, 1)
 	closedList := make([]*Node, 0)
 	solutionPath := make([]*Node, 0)
 	foundPath := false
 
 	// add the root node to the openList
-	openList = append(openList, r)
+	if heuristic == 1 {
+		root.Heuristic = Heuristic1(root.Puzzle)
+	} else {
+		root.Heuristic = Heuristic2(root.Puzzle)
+	}
+	item := &Item{
+		Value:    root,
+		Priority: root.Heuristic,
+	}
+	openList[0] = item
+	heap.Init(&openList)
 
-	for len(openList) > 0 && !foundPath {
+	fmt.Println("here")
+	for openList.Len() > 0 && !foundPath {
 
-		x := openList[0]
-		index := 0
-		for i := 0; i < len(openList)-1; i++ {
-			if openList[i].Heuristic == -1 {
-				openList[i].Heuristic = Heuristic2(openList[i].Puzzle)
-			}
-			if x.Heuristic > openList[i].Heuristic {
-				x = openList[i]
-				index = i
-			}
-		}
-		openList = append(openList[:index], openList[index+1:]...)
+		x := openList.Pop().(*Item).Value
 		closedList = append(closedList, x)
 
 		if x.isGoalState() {
@@ -74,12 +79,76 @@ func BestFirstSearch(r *Node) []*Node {
 
 		for i := 0; i < len(x.Children); i++ {
 			child := x.Children[i]
-
-			child.Heuristic = Heuristic1(child.Puzzle)
-
-			if !Contains(openList, child) && !Contains(closedList, child) {
+			if !Contains(closedList, child) {
+				// add the root node to the openList
+				if heuristic == 1 {
+					child.Heuristic = Heuristic1(child.Puzzle)
+				} else {
+					child.Heuristic = Heuristic2(child.Puzzle)
+				}
+				item := &Item{
+					Value:    child,
+					Priority: child.Heuristic,
+				}
 				// put remaining children of x on left end of open list
-				openList = append([]*Node{x.Children[i]}, openList...)
+				openList.Push(item)
+				heap.Push(&openList, item)
+			}
+		}
+
+	}
+	return solutionPath
+}
+
+// As algorithm
+func As(root *Node, heuristic int) []*Node {
+	openList := make(PriorityQueue, 1)
+	closedList := make([]*Node, 0)
+	solutionPath := make([]*Node, 0)
+	foundPath := false
+
+	// add the root node to the openList
+	if heuristic == 1 {
+		root.Heuristic = Heuristic1(root.Puzzle) + root.G
+	} else {
+		root.Heuristic = Heuristic2(root.Puzzle) + root.G
+	}
+	item := &Item{
+		Value:    root,
+		Priority: root.Heuristic,
+	}
+	openList[0] = item
+	heap.Init(&openList)
+
+	fmt.Println("here")
+	for openList.Len() > 0 && !foundPath {
+
+		x := openList.Pop().(*Item).Value
+		closedList = append(closedList, x)
+
+		if x.isGoalState() {
+			foundPath = true
+			solutionPath = x.PathTrace()
+		}
+
+		x.GenerateMoves()
+
+		for i := 0; i < len(x.Children); i++ {
+			child := x.Children[i]
+			if !Contains(closedList, child) {
+				// add the root node to the openList
+				if heuristic == 1 {
+					child.Heuristic = Heuristic1(child.Puzzle) + child.G
+				} else {
+					child.Heuristic = Heuristic2(child.Puzzle) + child.G
+				}
+				item := &Item{
+					Value:    child,
+					Priority: child.Heuristic,
+				}
+				// put remaining children of x on left end of open list
+				openList.Push(item)
+				heap.Push(&openList, item)
 			}
 		}
 

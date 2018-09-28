@@ -8,6 +8,7 @@ type Node struct {
 	Puzzle    []int
 	Move      string
 	Heuristic int
+	G         int
 }
 
 // NewPuzzle generates the root node
@@ -23,6 +24,7 @@ func NewPuzzle(p []int) *Node {
 		Puzzle:    puzzle,
 		Move:      "0",
 		Heuristic: -1,
+		G:         0,
 	}
 }
 
@@ -109,6 +111,7 @@ func (n *Node) MoveUp(p []int, i int) {
 		child := NewPuzzle(c)
 		child.Move = boardPositions[i-NumberColumns]
 		child.Parent = n
+		child.G = n.G + 1
 		n.Children = append(n.Children, child)
 	}
 }
@@ -124,6 +127,7 @@ func (n *Node) MoveUpRight(p []int, i int) {
 		child := NewPuzzle(c)
 		child.Move = boardPositions[i-NumberRows]
 		child.Parent = n
+		child.G = n.G + 1
 		n.Children = append(n.Children, child)
 	}
 }
@@ -139,6 +143,7 @@ func (n *Node) MoveRight(p []int, i int) {
 		child := NewPuzzle(c)
 		child.Move = boardPositions[i+1]
 		child.Parent = n
+		child.G = n.G + 1
 		n.Children = append(n.Children, child)
 	}
 }
@@ -154,6 +159,7 @@ func (n *Node) MoveDownRight(p []int, i int) {
 		child := NewPuzzle(c)
 		child.Move = boardPositions[i+5]
 		child.Parent = n
+		child.G = n.G + 1
 		n.Children = append(n.Children, child)
 	}
 }
@@ -169,6 +175,7 @@ func (n *Node) MoveDown(p []int, i int) {
 		child := NewPuzzle(c)
 		child.Move = boardPositions[i+4]
 		child.Parent = n
+		child.G = n.G + 1
 		n.Children = append(n.Children, child)
 	}
 }
@@ -184,6 +191,7 @@ func (n *Node) MoveDownLeft(p []int, i int) {
 		child := NewPuzzle(c)
 		child.Move = boardPositions[i+3]
 		child.Parent = n
+		child.G = n.G + 1
 		n.Children = append(n.Children, child)
 	}
 }
@@ -199,6 +207,7 @@ func (n *Node) MoveLeft(p []int, i int) {
 		child := NewPuzzle(c)
 		child.Move = boardPositions[i-1]
 		child.Parent = n
+		child.G = n.G + 1
 		n.Children = append(n.Children, child)
 	}
 }
@@ -214,6 +223,7 @@ func (n *Node) MoveUpLeft(p []int, i int) {
 		child := NewPuzzle(c)
 		child.Move = boardPositions[i-5]
 		child.Parent = n
+		child.G = n.G + 1
 		n.Children = append(n.Children, child)
 	}
 }
