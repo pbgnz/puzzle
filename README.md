@@ -3,34 +3,19 @@
 ## Requirements
 1. Go 1.7 or later
 
-## Detailed Usage
+## Details
 
 ### Installation
 
-#### Manually
-
 ``` bash
-$ cp ./* $GOPATH/src/github.com/pbgnz/puzzle
-
+$ git clone https://github.com/pbgnz/puzzle.git
+$ cp -R ./puzzle $GOPATH/src/github.com/pbgnz
 $ cd $GOPATH/src/github.com/pbgnz/puzzle
-
-$ go run main.go [arguments]
-
-// example: go run main.go 1 0 3 7 5 2 6 4 9 10 11 8
-```
-
-#### Via go get
-``` bash
-$ go get -u github.com/pbgnz/puzzle
-
-$ puzzle 1 0 3 7 5 2 6 4 9 10 11 8
+$ go install
 ```
 
 ### Usage
 
 ``` bash
-$ cd $GOPATH/src/github.com/pbgnz/puzzle
-
-$ go run main.go [arguments]
-// example: go run main.go 1 0 3 7 5 2 6 4 9 10 11 8
+$ puzzle 1 2 3 4 5 6 7 8 9 10 11 0
 ```
