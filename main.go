@@ -14,9 +14,9 @@ func main() {
 
 	inputs := handleInput(os.Args[1:])
 
-	// p := puzzle.NewPuzzle(inputs)
-	// dfs := puzzle.DepthFirstSearch(p)
-	// generateOutputFiles(dfs, "output/puzzleDFS.txt")
+	p := puzzle.NewPuzzle(inputs)
+	dfs := puzzle.DepthFirstSearch(p)
+	generateOutputFiles(dfs, "output/puzzleDFS.txt")
 
 	puzzle2 := puzzle.NewPuzzle(inputs)
 	bfsH1 := puzzle.BestFirstSearch(puzzle2, 1)

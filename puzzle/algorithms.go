@@ -2,7 +2,6 @@ package puzzle
 
 import (
 	"container/heap"
-	"fmt"
 )
 
 // DepthFirstSearch algorithm
@@ -37,7 +36,7 @@ func DepthFirstSearch(r *Node) []*Node {
 		for i := 0; i < len(x.Children); i++ {
 			if !Contains(openList, x.Children[i]) && !Contains(closedList, x.Children[i]) {
 				// put remaining children of x on left end of open list
-				openList = append([]*Node{x.Children[i]}, openList...)
+				openList = append(openList, x.Children[i])
 			}
 		}
 	}
@@ -64,10 +63,10 @@ func BestFirstSearch(root *Node, heuristic int) []*Node {
 	openList[0] = item
 	heap.Init(&openList)
 
-	fmt.Println("here")
 	for openList.Len() > 0 && !foundPath {
 
 		x := openList.Pop().(*Item).Value
+
 		closedList = append(closedList, x)
 
 		if x.isGoalState() {
@@ -79,7 +78,7 @@ func BestFirstSearch(root *Node, heuristic int) []*Node {
 
 		for i := 0; i < len(x.Children); i++ {
 			child := x.Children[i]
-			if !Contains(closedList, child) {
+			if !Contains(closedList, child) && !openList.Contains(child) {
 				// add the root node to the openList
 				if heuristic == 1 {
 					child.Heuristic = Heuristic1(child.Puzzle)
@@ -120,7 +119,6 @@ func As(root *Node, heuristic int) []*Node {
 	openList[0] = item
 	heap.Init(&openList)
 
-	fmt.Println("here")
 	for openList.Len() > 0 && !foundPath {
 
 		x := openList.Pop().(*Item).Value
@@ -135,7 +133,7 @@ func As(root *Node, heuristic int) []*Node {
 
 		for i := 0; i < len(x.Children); i++ {
 			child := x.Children[i]
-			if !Contains(closedList, child) {
+			if !Contains(closedList, child) && !openList.Contains(child) {
 				// add the root node to the openList
 				if heuristic == 1 {
 					child.Heuristic = Heuristic1(child.Puzzle) + child.G

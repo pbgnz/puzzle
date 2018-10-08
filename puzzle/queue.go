@@ -50,3 +50,14 @@ func (pq *PriorityQueue) update(item *Item, value *Node, priority int) {
 	item.Priority = priority
 	heap.Fix(pq, item.Index)
 }
+
+// Contains checks if it is there
+func (pq PriorityQueue) Contains(n *Node) bool {
+	contains := false
+	for i := 0; i < len(pq); i++ {
+		if AreTheSame(pq[i].Value.Puzzle, n.Puzzle) {
+			contains = true
+		}
+	}
+	return contains
+}
