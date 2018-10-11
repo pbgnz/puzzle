@@ -34,7 +34,6 @@ var inverseGoalState = map[int]int{
 	9:  8,
 	10: 9,
 	11: 10,
-	0:  11,
 }
 
 var boardPositions = map[int]string{

@@ -2,6 +2,7 @@ package puzzle
 
 import (
 	"container/heap"
+	"reflect"
 )
 
 // An Item is something we manage in a priority queue.
@@ -52,12 +53,13 @@ func (pq *PriorityQueue) update(item *Item, value *Node, priority int) {
 }
 
 // Contains checks if it is there
-func (pq PriorityQueue) Contains(n *Node) bool {
-	contains := false
+func (pq PriorityQueue) Contains(n *Node) (bool, *Node) {
 	for i := 0; i < len(pq); i++ {
 		if AreTheSame(pq[i].Value.Puzzle, n.Puzzle) {
-			contains = true
+			if reflect.DeepEqual(pq[i].Value, n) {
+				return true, n
+			}
 		}
 	}
-	return contains
+	return false, nil
 }

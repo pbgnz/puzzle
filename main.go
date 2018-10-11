@@ -14,24 +14,29 @@ func main() {
 
 	inputs := handleInput(os.Args[1:])
 
+	fmt.Println("Running dfs")
 	p := puzzle.NewPuzzle(inputs)
 	dfs := puzzle.DepthFirstSearch(p)
 	generateOutputFiles(dfs, "output/puzzleDFS.txt")
 
+	fmt.Println("Running bfsH1")
 	puzzle2 := puzzle.NewPuzzle(inputs)
 	bfsH1 := puzzle.BestFirstSearch(puzzle2, 1)
 	generateOutputFiles(bfsH1, "output/puzzleBFS-h1.txt")
 
+	fmt.Println("Running bfsH2")
 	puzzle3 := puzzle.NewPuzzle(inputs)
 	bfsH2 := puzzle.BestFirstSearch(puzzle3, 2)
 	generateOutputFiles(bfsH2, "output/puzzleBFS-h2.txt")
 
+	fmt.Println("Running asH1")
 	puzzle4 := puzzle.NewPuzzle(inputs)
-	asH1 := puzzle.BestFirstSearch(puzzle4, 1)
+	asH1 := puzzle.As(puzzle4, 1)
 	generateOutputFiles(asH1, "output/puzzleAs-h1.txt")
 
+	fmt.Println("Running asH2")
 	puzzle5 := puzzle.NewPuzzle(inputs)
-	asH2 := puzzle.BestFirstSearch(puzzle5, 2)
+	asH2 := puzzle.As(puzzle5, 2)
 	generateOutputFiles(asH2, "output/puzzleAs-h2.txt")
 
 }

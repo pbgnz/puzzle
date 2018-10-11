@@ -1,5 +1,7 @@
 package puzzle
 
+import "reflect"
+
 // Node represents a tree node
 type Node struct {
 	Value     int
@@ -89,13 +91,27 @@ func AreTheSame(a []int, b []int) bool {
 
 // Contains checks if an array of Nodes contains a given Node
 func Contains(s []*Node, n *Node) bool {
-	contains := false
 	for i := 0; i < len(s); i++ {
 		if AreTheSame(s[i].Puzzle, n.Puzzle) {
-			contains = true
+			return true
 		}
 	}
-	return contains
+	return false
+}
+
+// ContainsAndRemove checks if an array of Nodes contains a given Node
+// and removes the node if it is theres
+func ContainsAndRemove(s []*Node, n *Node) (bool, *Node) {
+	for i := 0; i < len(s); i++ {
+		if AreTheSame(s[i].Puzzle, n.Puzzle) {
+			if reflect.DeepEqual(s[i].Value, n) {
+				node := s[i]
+				s = append(s[:i], s[i+1:]...)
+				return true, node
+			}
+		}
+	}
+	return false, nil
 }
 
 // MoveUp moves the empty tile up by 1 tile

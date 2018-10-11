@@ -1,5 +1,7 @@
 package puzzle
 
+// TODO: f(N) must be admissible
+
 // Heuristic1 is the number of misplaced tiles
 func Heuristic1(p []int) int {
 	m := 0
