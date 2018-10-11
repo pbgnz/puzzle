@@ -126,14 +126,12 @@ func BestFirstSearch(root *Node, heuristic int) []*Node {
 				//  value f(oldChildOpen).  If the old value is lower discard
 				//  the newly generated node.  If the new value is
 				//  lower, substitute the new node for the old node.
-				if child.Heuristic < oldChildOpen.Heuristic {
-					oldChildOpen.Heuristic = child.Heuristic
+				if child.Heuristic < oldChildOpen.Value.Heuristic {
+					oldChildOpen.Value.Heuristic = child.Heuristic
+					oldChildOpen.Value.Parent = child.Parent
 					// modify the priority and value of an Item in the queue.
 					// the node is already in the priority queue
-					openList.update(&Item{
-						Value:    oldChildOpen,
-						Priority: oldChildOpen.Heuristic,
-					}, oldChildOpen, oldChildOpen.Heuristic)
+					openList.update(oldChildOpen, oldChildOpen.Value, child.Heuristic)
 				}
 			} else if inClosedList {
 				// 	If the old node was on closedList move it back to
@@ -221,26 +219,20 @@ func As(root *Node, heuristic int) []*Node {
 				// if child was already on openList
 				// direct its pointers along the path yielding
 				// the lowest g(child) and keep the lowest f(child).
-				if child.G < oldChildOpen.G {
-					oldChildOpen.G = child.G
-					oldChildOpen.Parent = child.Parent
-					if child.Heuristic < oldChildOpen.Heuristic {
-						oldChildOpen.Heuristic = child.Heuristic
+				if child.G < oldChildOpen.Value.G {
+					oldChildOpen.Value.G = child.G
+					oldChildOpen.Value.Parent = child.Parent
+					if child.Heuristic < oldChildOpen.Value.Heuristic {
+						oldChildOpen.Value.Heuristic = child.Heuristic
 					}
 					// modify the priority and value of an Item in the queue.
-					openList.update(&Item{
-						Value:    oldChildOpen,
-						Priority: oldChildOpen.Heuristic,
-					}, oldChildOpen, oldChildOpen.Heuristic)
+					openList.update(oldChildOpen, oldChildOpen.Value, oldChildOpen.Value.Heuristic)
 				} else {
-					if child.Heuristic < oldChildOpen.Heuristic {
-						oldChildOpen.Heuristic = child.Heuristic
+					if child.Heuristic < oldChildOpen.Value.Heuristic {
+						oldChildOpen.Value.Heuristic = child.Heuristic
 					}
 					// modify the priority and value of an Item in the queue.
-					openList.update(&Item{
-						Value:    oldChildOpen,
-						Priority: oldChildOpen.Heuristic,
-					}, oldChildOpen, oldChildOpen.Heuristic)
+					openList.update(oldChildOpen, oldChildOpen.Value, oldChildOpen.Value.Heuristic)
 				}
 			} else if inClosedList {
 				// 	If the old node was on closedList move it back to

@@ -29,15 +29,15 @@ func main() {
 	bfsH2 := puzzle.BestFirstSearch(puzzle3, 2)
 	generateOutputFiles(bfsH2, "output/puzzleBFS-h2.txt")
 
-	// fmt.Println("Running asH1")
-	// puzzle4 := puzzle.NewPuzzle(inputs)
-	// asH1 := puzzle.As(puzzle4, 1)
-	// generateOutputFiles(asH1, "output/puzzleAs-h1.txt")
+	fmt.Println("Running asH1")
+	puzzle4 := puzzle.NewPuzzle(inputs)
+	asH1 := puzzle.As(puzzle4, 1)
+	generateOutputFiles(asH1, "output/puzzleAs-h1.txt")
 
-	// fmt.Println("Running asH2")
-	// puzzle5 := puzzle.NewPuzzle(inputs)
-	// asH2 := puzzle.As(puzzle5, 2)
-	// generateOutputFiles(asH2, "output/puzzleAs-h2.txt")
+	fmt.Println("Running asH2")
+	puzzle5 := puzzle.NewPuzzle(inputs)
+	asH2 := puzzle.As(puzzle5, 2)
+	generateOutputFiles(asH2, "output/puzzleAs-h2.txt")
 
 }
 

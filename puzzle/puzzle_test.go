@@ -197,6 +197,24 @@ func TestContains(t *testing.T) {
 		t.Errorf("Did not found the node on the slice")
 	}
 
+	b4 := Contains(p.Children, p.Children[0])
+	if b4 != true {
+		t.Errorf("Did not found the node on the slice")
+	}
+
+	b5 := Contains(p.Children, p.Children[1])
+	if b5 != true {
+		t.Errorf("Did not found the node on the slice")
+	}
+
+	b6 := Contains(p.Children, p.Children[2])
+	if b6 != true {
+		t.Errorf("Did not found the node on the slice")
+	}
+
+	if len(p.Children) != 3 {
+		t.Errorf("Removed some nodes from the slice: %v remain", len(p.Children))
+	}
 }
 
 func TestContainsAndRemove(t *testing.T) {
@@ -214,6 +232,9 @@ func TestContainsAndRemove(t *testing.T) {
 	}
 
 	s = append(s, p.Children[0])
+	if len(s) != 1 {
+		t.Errorf("Node was not added to the slice")
+	}
 	b2, n2 := ContainsAndRemove(&s, p.Children[0])
 	if b2 != true {
 		t.Errorf("Did not found the node on the slice")
@@ -225,6 +246,36 @@ func TestContainsAndRemove(t *testing.T) {
 		t.Errorf("Node was not removed from the slice")
 	}
 
+	if len(p.Children) != 3 {
+		t.Errorf("Suposed to have 3 children: %v children found", len(p.Children))
+	}
+
+	b4, _ := ContainsAndRemove(&p.Children, p.Children[0])
+	if b4 != true {
+		t.Errorf("Did not found the node on the slice")
+	}
+
+	if len(p.Children) != 2 {
+		t.Errorf("Suposed to have 2 children: %v children found", len(p.Children))
+	}
+
+	b5, _ := ContainsAndRemove(&p.Children, p.Children[0])
+	if b5 != true {
+		t.Errorf("Did not found the node on the slice")
+	}
+
+	if len(p.Children) != 1 {
+		t.Errorf("Suposed to have 1 children: %v children found", len(p.Children))
+	}
+
+	b6, _ := ContainsAndRemove(&p.Children, p.Children[0])
+	if b6 != true {
+		t.Errorf("Did not found the node on the slice")
+	}
+
+	if len(p.Children) != 0 {
+		t.Errorf("Did not remove all nodes from the slice: %v remain", len(p.Children))
+	}
 }
 
 func TestMoveUp(t *testing.T) {

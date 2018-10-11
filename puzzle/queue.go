@@ -53,11 +53,11 @@ func (pq *PriorityQueue) update(item *Item, value *Node, priority int) {
 }
 
 // Contains checks if it is there
-func (pq PriorityQueue) Contains(n *Node) (bool, *Node) {
+func (pq PriorityQueue) Contains(n *Node) (bool, *Item) {
 	for i := 0; i < len(pq); i++ {
 		if AreTheSame(pq[i].Value.Puzzle, n.Puzzle) {
 			if reflect.DeepEqual(pq[i].Value, n) {
-				return true, n
+				return true, pq[i]
 			}
 		}
 	}

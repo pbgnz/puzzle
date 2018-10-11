@@ -93,9 +93,7 @@ func AreTheSame(a []int, b []int) bool {
 func Contains(s []*Node, n *Node) bool {
 	for i := 0; i < len(s); i++ {
 		if AreTheSame(s[i].Puzzle, n.Puzzle) {
-			if reflect.DeepEqual(s[i], n) {
-				return true
-			}
+			return true
 		}
 	}
 	return false
