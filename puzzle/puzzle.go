@@ -2,15 +2,15 @@ package puzzle
 
 import "reflect"
 
-// Node represents a tree node
+// Node represents a in the search tree
 type Node struct {
-	Value     int
+	Puzzle    []int
+	Value     int // the index of the "0" in the puzzle
 	Children  []*Node
 	Parent    *Node
-	Puzzle    []int
-	Move      string
+	Move      string // used for printing files
 	Heuristic int
-	G         int
+	G         int // the depth of the node in the search tree
 }
 
 // NewPuzzle generates the root node
@@ -20,10 +20,10 @@ func NewPuzzle(p []int) *Node {
 		puzzle[i] = p[i]
 	}
 	return &Node{
+		Puzzle:    puzzle,
 		Value:     -1,
 		Children:  make([]*Node, 0),
 		Parent:    nil,
-		Puzzle:    puzzle,
 		Move:      "0",
 		Heuristic: -1,
 		G:         0,
@@ -58,7 +58,7 @@ func (n *Node) isGoalState() bool {
 	return true
 }
 
-// PathTrace returns an array of nodes leading to goal
+// PathTrace returns a slice of nodes leading to goal
 func (n *Node) PathTrace() []*Node {
 	new := make([]*Node, 0)
 	current := n
@@ -79,7 +79,7 @@ func (n *Node) ClonePuzzle() []int {
 	return p
 }
 
-// AreTheSame compares two arrays
+// AreTheSame compares two slices
 func AreTheSame(a []int, b []int) bool {
 	for i := 0; i < len(a); i++ {
 		if a[i] != b[i] {
@@ -89,24 +89,26 @@ func AreTheSame(a []int, b []int) bool {
 	return true
 }
 
-// Contains checks if an array of Nodes contains a given Node
+// Contains checks if a slice of Nodes contains a given Node
 func Contains(s []*Node, n *Node) bool {
 	for i := 0; i < len(s); i++ {
 		if AreTheSame(s[i].Puzzle, n.Puzzle) {
-			return true
+			if reflect.DeepEqual(s[i], n) {
+				return true
+			}
 		}
 	}
 	return false
 }
 
-// ContainsAndRemove checks if an array of Nodes contains a given Node
+// ContainsAndRemove checks if an slice of Nodes contains a given Node
 // and removes the node if it is theres
-func ContainsAndRemove(s []*Node, n *Node) (bool, *Node) {
-	for i := 0; i < len(s); i++ {
-		if AreTheSame(s[i].Puzzle, n.Puzzle) {
-			if reflect.DeepEqual(s[i].Value, n) {
-				node := s[i]
-				s = append(s[:i], s[i+1:]...)
+func ContainsAndRemove(s *[]*Node, n *Node) (bool, *Node) {
+	for i := 0; i < len(*s); i++ {
+		if AreTheSame((*s)[i].Puzzle, n.Puzzle) {
+			if reflect.DeepEqual((*s)[i], n) {
+				node := (*s)[i]
+				(*s) = append((*s)[:i], (*s)[i+1:]...)
 				return true, node
 			}
 		}
@@ -115,8 +117,6 @@ func ContainsAndRemove(s []*Node, n *Node) (bool, *Node) {
 }
 
 // MoveUp moves the empty tile up by 1 tile
-// @param {[]int} p - the puzzle (1 dimensional array)
-// @param {int} i - the position of the empty tile
 func (n *Node) MoveUp(p []int, i int) {
 	if i-NumberColumns >= 0 {
 		c := n.ClonePuzzle()

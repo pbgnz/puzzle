@@ -99,7 +99,7 @@ func BestFirstSearch(root *Node, heuristic int) []*Node {
 			// check if child was on openList or closedList
 			// results used below
 			inOpenList, oldChildOpen := openList.Contains(child)
-			inClosedList, oldChildClosed := ContainsAndRemove(closedList, child)
+			inClosedList, oldChildClosed := ContainsAndRemove(&closedList, child)
 
 			if inClosedList && inOpenList {
 				fmt.Println("Something wrong")
@@ -197,7 +197,7 @@ func As(root *Node, heuristic int) []*Node {
 			// check if child was on openList or closedList
 			// results used below
 			inOpenList, oldChildOpen := openList.Contains(child)
-			inClosedList, oldChildClosed := ContainsAndRemove(closedList, child)
+			inClosedList, oldChildClosed := ContainsAndRemove(&closedList, child)
 			if inClosedList && inOpenList {
 				fmt.Println("Something wrong")
 			}

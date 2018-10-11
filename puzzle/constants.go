@@ -23,6 +23,7 @@ var goalState = map[int]int{
 }
 
 var inverseGoalState = map[int]int{
+	0:  11,
 	1:  0,
 	2:  1,
 	3:  2,
