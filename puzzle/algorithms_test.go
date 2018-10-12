@@ -2,6 +2,36 @@ package puzzle
 
 import "testing"
 
+func BenchmarkDFS(b *testing.B) {
+	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
+	p := NewPuzzle(i)
+	DepthFirstSearch(p)
+}
+
+func BenchmarkBFSH1(b *testing.B) {
+	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
+	p := NewPuzzle(i)
+	BestFirstSearch(p, 1)
+}
+
+// func BenchmarkBFSH2(b *testing.B) {
+// 	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
+// 	p := NewPuzzle(i)
+// 	BestFirstSearch(p, 2)
+// }
+
+func BenchmarkASH1(b *testing.B) {
+	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
+	p := NewPuzzle(i)
+	As(p, 1)
+}
+
+func BenchmarkASH2(b *testing.B) {
+	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
+	p := NewPuzzle(i)
+	As(p, 2)
+}
+
 func TestDepthFirstSearch(t *testing.T) {
 
 	//  1 | 2 | 3 | 0

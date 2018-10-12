@@ -107,7 +107,7 @@ func TestPathTrace(t *testing.T) {
 
 	p.Children[0].GenerateMoves()
 
-	r := p.Children[0].Children[1].PathTrace()
+	r := p.Children[0].Children[0].PathTrace()
 
 	// results should return 2 moves + initial state
 	if len(r) != 3 {
@@ -125,7 +125,7 @@ func TestPathTrace(t *testing.T) {
 
 	// [move2 (goal state), move1, intial state]
 	if AreTheSame(r[0].Puzzle, move2) != true {
-		t.Errorf("Expected the solution path to return the second move")
+		t.Errorf("Expected the solution path to return the second move%v", r[0].Puzzle)
 	}
 
 	if AreTheSame(r[1].Puzzle, move1) != true {

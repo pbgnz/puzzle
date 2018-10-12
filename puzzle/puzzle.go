@@ -46,6 +46,20 @@ func (n *Node) GenerateMoves() {
 	n.MoveDownLeft(n.Puzzle, n.Value)
 	n.MoveLeft(n.Puzzle, n.Value)
 	n.MoveUpLeft(n.Puzzle, n.Value)
+
+	// remove the parent from the child
+	t := n.PathTrace()
+	for i := 0; i < len(n.Children); i++ {
+		if AreTheSame(n.Puzzle, n.Children[i].Puzzle) {
+			copy(n.Children[i:], n.Children[i+1:])
+			n.Children[len(n.Children)-1] = nil
+			n.Children = n.Children[:len(n.Children)-1]
+		} else if Contains(t, n.Children[i]) {
+			copy(n.Children[i:], n.Children[i+1:])
+			n.Children[len(n.Children)-1] = nil
+			n.Children = n.Children[:len(n.Children)-1]
+		}
+	}
 }
 
 // GoalTest veries if a puzzle is the goal state

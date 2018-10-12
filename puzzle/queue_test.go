@@ -14,18 +14,16 @@ func TestPop(t *testing.T) {
 	i := []int{5, 3, 7, 0, 11, 1, 6, 10, 4, 9, 2, 8}
 	p := NewPuzzle(i)
 	p.Heuristic = 10
+	item := &Item{
+		Node:      p,
+		Heuristic: p.Heuristic,
+	}
 
 	p2 := NewPuzzle(i)
 	p2.Heuristic = 12
-
-	item := &Item{
-		Value:    p,
-		Priority: p.Heuristic,
-	}
-
 	item2 := &Item{
-		Value:    p2,
-		Priority: p2.Heuristic,
+		Node:      p2,
+		Heuristic: p2.Heuristic,
 	}
 
 	pq[0] = item
@@ -33,14 +31,14 @@ func TestPop(t *testing.T) {
 	heap.Init(&pq)
 
 	// pop the items and verify if lowest heuristic poped first
-	pop1 := pq.Pop().(*Item)
+	pop1 := heap.Pop(&pq).(*Item)
 	if reflect.DeepEqual(item, pop1) != true {
-		t.Errorf("Priority queue did not pop the lowest priority element")
+		t.Errorf("Heuristic queue did not pop the lowest Heuristic element")
 	}
 
-	pop2 := pq.Pop().(*Item)
+	pop2 := heap.Pop(&pq).(*Item)
 	if reflect.DeepEqual(item2, pop2) != true {
-		t.Errorf("Priority queue did not pop the lowest priority element")
+		t.Errorf("Heuristic queue did not pop the lowest Heuristic element")
 	}
 }
 
@@ -53,35 +51,36 @@ func TestPush(t *testing.T) {
 	i := []int{5, 3, 7, 0, 11, 1, 6, 10, 4, 9, 2, 8}
 	p := NewPuzzle(i)
 	p.Heuristic = 10
+	item := &Item{
+		Node:      p,
+		Heuristic: p.Heuristic,
+	}
 
 	p2 := NewPuzzle(i)
 	p2.Heuristic = 12
-
-	item := &Item{
-		Value:    p,
-		Priority: p.Heuristic,
-	}
-
 	item2 := &Item{
-		Value:    p2,
-		Priority: p2.Heuristic,
+		Node:      p2,
+		Heuristic: p2.Heuristic,
 	}
 
 	// push the two items
-	pq.Push(item)
 	heap.Push(&pq, item)
-	pq.Push(item2)
+	if pq.Len() != 1 {
+		t.Errorf("The length of the pq did not update properly; expected 1 but got %v", pq.Len())
+	}
 	heap.Push(&pq, item2)
-
-	// verify the items were poped in the right order
-	pop1 := pq.Pop().(*Item)
-	if reflect.DeepEqual(item, pop1) != true {
-		t.Errorf("Priority queue did not pop the lowest priority element")
+	if pq.Len() != 2 {
+		t.Errorf("The length of the pq did not update properly; expected 2 but got %v", pq.Len())
 	}
 
-	pop2 := pq.Pop().(*Item)
+	pop1 := heap.Pop(&pq).(*Item)
+	if reflect.DeepEqual(item, pop1) != true {
+		t.Errorf("Heuristic queue did not pop the lowest Heuristic element")
+	}
+
+	pop2 := heap.Pop(&pq).(*Item)
 	if reflect.DeepEqual(item2, pop2) != true {
-		t.Errorf("Priority queue did not pop the lowest priority element")
+		t.Errorf("Heuristic queue did not pop the lowest Heuristic element")
 	}
 }
 
@@ -98,13 +97,13 @@ func TestUpdate(t *testing.T) {
 	p2.Heuristic = 12
 
 	item := &Item{
-		Value:    p,
-		Priority: p.Heuristic,
+		Node:      p,
+		Heuristic: p.Heuristic,
 	}
 
 	item2 := &Item{
-		Value:    p2,
-		Priority: p2.Heuristic,
+		Node:      p2,
+		Heuristic: p2.Heuristic,
 	}
 
 	pq[0] = item
@@ -116,13 +115,13 @@ func TestUpdate(t *testing.T) {
 	pq.update(item2, p2, 1)
 
 	// verify the items were poped in the right order
-	pop1 := pq.Pop().(*Item)
+	pop1 := heap.Pop(&pq).(*Item)
 	if reflect.DeepEqual(item2, pop1) != true {
-		t.Errorf("Priority queue did not pop the lowest priority element")
+		t.Errorf("Heuristic queue did not pop the lowest Heuristic element")
 	}
 
-	pop2 := pq.Pop().(*Item)
+	pop2 := heap.Pop(&pq).(*Item)
 	if reflect.DeepEqual(item, pop2) != true {
-		t.Errorf("Priority queue did not pop the lowest priority element")
+		t.Errorf("Heuristic queue did not pop the lowest Heuristic element")
 	}
 }
