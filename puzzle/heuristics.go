@@ -17,9 +17,14 @@ func Heuristic1(p []int) int {
 func Heuristic2(p []int) int {
 	m := 0
 	for i := 0; i < len(p); i++ {
-		for j := i + 1; j < len(p); j++ {
-			if inverseGoalState[p[j]] < inverseGoalState[p[i]] {
-				m++
+		if p[i] != 0 {
+			for j := i + 1; j < len(p); j++ {
+				if p[j] == 0 {
+					continue
+				}
+				if inverseGoalState[p[j]] < inverseGoalState[p[i]] {
+					m++
+				}
 			}
 		}
 	}
