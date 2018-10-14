@@ -28,5 +28,6 @@ func Heuristic2(p []int) int {
 			}
 		}
 	}
+	m = +Heuristic1(p);
 	return m
 }
