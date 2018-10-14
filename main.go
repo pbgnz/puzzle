@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"./puzzle"
+	"github.com/pbgnz/puzzle/puzzle"
 )
 
 func main() {
