@@ -7,15 +7,10 @@
 
 ### Installation
 
-``` bash
-$ git clone https://github.com/pbgnz/puzzle.git
-$ cp -R ./puzzle $GOPATH/src/github.com/pbgnz
-$ cd $GOPATH/src/github.com/pbgnz/puzzle
-$ go install
-```
+Using Scientific Linux on the ENCS computers, unzip the file and go to the root of the project.
 
 ### Usage
 
 ``` bash
-$ puzzle 1 2 3 4 5 6 7 8 9 10 11 0
+$ go run main.go 1 0 3 7 5 2 6 4 9 10 11 8
 ```
