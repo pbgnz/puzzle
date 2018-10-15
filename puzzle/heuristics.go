@@ -13,7 +13,7 @@ func Heuristic1(p []int) int {
 	return m
 }
 
-// Heuristic2 sum of permutation inversions
+// Heuristic2 sum of permutation inversions + number of misplaced tiles
 func Heuristic2(p []int) int {
 	m := 0
 	for i := 0; i < len(p); i++ {
@@ -28,6 +28,6 @@ func Heuristic2(p []int) int {
 			}
 		}
 	}
-	m = +Heuristic1(p);
+	m += Heuristic1(p)
 	return m
 }
