@@ -2,36 +2,128 @@ package puzzle
 
 import "testing"
 
+// BENCHMARKS
+
+// TABLE 1
 func BenchmarkDFS(b *testing.B) {
 	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
 	p := NewPuzzle(i)
-	DepthFirstSearch(p)
+	for n := 0; n < b.N; n++ {
+		DepthFirstSearch(p)
+	}
 }
 
 func BenchmarkBFSH1(b *testing.B) {
 	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
 	p := NewPuzzle(i)
-	BestFirstSearch(p, 1)
+	for n := 0; n < b.N; n++ {
+		BestFirstSearch(p, 1)
+	}
 }
 
-// func BenchmarkBFSH2(b *testing.B) {
-// 	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
-// 	p := NewPuzzle(i)
-// 	BestFirstSearch(p, 2)
-// }
+func BenchmarkBFSH2(b *testing.B) {
+	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
+	p := NewPuzzle(i)
+	BestFirstSearch(p, 2)
+}
 
 func BenchmarkASH1(b *testing.B) {
 	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
 	p := NewPuzzle(i)
-	As(p, 1)
+	for n := 0; n < b.N; n++ {
+		As(p, 1)
+	}
 }
 
 func BenchmarkASH2(b *testing.B) {
 	i := []int{5, 1, 2, 3, 9, 6, 7, 4, 0, 10, 11, 8}
 	p := NewPuzzle(i)
-	As(p, 2)
+	for n := 0; n < b.N; n++ {
+		As(p, 2)
+	}
 }
 
+// TABLE 2
+func BenchmarkDFS2(b *testing.B) {
+	i := []int{1, 0, 3, 7, 5, 2, 6, 4, 9, 10, 11, 8}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		DepthFirstSearch(p)
+	}
+}
+
+func BenchmarkBFSH12(b *testing.B) {
+	i := []int{1, 0, 3, 7, 5, 2, 6, 4, 9, 10, 11, 8}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		BestFirstSearch(p, 1)
+	}
+}
+
+func BenchmarkBFSH22(b *testing.B) {
+	i := []int{1, 0, 3, 7, 5, 2, 6, 4, 9, 10, 11, 8}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		BestFirstSearch(p, 2)
+	}
+}
+
+func BenchmarkASH12(b *testing.B) {
+	i := []int{1, 0, 3, 7, 5, 2, 6, 4, 9, 10, 11, 8}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		As(p, 1)
+	}
+}
+
+func BenchmarkASH22(b *testing.B) {
+	i := []int{1, 0, 3, 7, 5, 2, 6, 4, 9, 10, 11, 8}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		As(p, 2)
+	}
+}
+
+// TABLE 3
+func BenchmarkDFS3(b *testing.B) {
+	i := []int{1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 10, 11}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		DepthFirstSearch(p)
+	}
+}
+
+func BenchmarkBFSH13(b *testing.B) {
+	i := []int{1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 10, 11}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		BestFirstSearch(p, 1)
+	}
+}
+
+func BenchmarkBFSH23(b *testing.B) {
+	i := []int{1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 10, 11}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		BestFirstSearch(p, 2)
+	}
+}
+
+func BenchmarkASH13(b *testing.B) {
+	i := []int{1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 10, 11}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		As(p, 1)
+	}
+}
+
+func BenchmarkASH23(b *testing.B) {
+	i := []int{1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 10, 11}
+	p := NewPuzzle(i)
+	for n := 0; n < b.N; n++ {
+		As(p, 2)
+	}
+}
 func TestDepthFirstSearch(t *testing.T) {
 
 	//  1 | 2 | 3 | 0
