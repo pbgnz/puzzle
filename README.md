@@ -1,4 +1,4 @@
-# puzzle
+# puzzle [![Build Status](https://travis-ci.org/pbgnz/puzzle.svg?branch=master)](https://travis-ci.org/pbgnz/puzzle) [![Coverage Status](https://coveralls.io/repos/github/pbgnz/puzzle/badge.svg?branch=master)](https://coveralls.io/github/pbgnz/puzzle?branch=master)
 
 ## Requirements
 1. Go 1.7 or later
