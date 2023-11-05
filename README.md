@@ -1,4 +1,4 @@
-# puzzle [![Build Status](https://travis-ci.org/pbgnz/puzzle.svg?branch=master)](https://travis-ci.org/pbgnz/puzzle) [![Coverage Status](https://codecov.io/gh/pbgnz/puzzle/branch/master/graph/badge.svg)](https://codecov.io/gh/pbgnz/puzzle/branch/master/)
+# puzzles
 
 ## Requirements
 1. Go 1.7 or later
